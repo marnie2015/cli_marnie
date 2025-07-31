@@ -6,10 +6,10 @@ A Ruby-based command-line tool to search for clients in a JSON dataset by name a
 
 ## 📦 Setup Instructions
 
-1. ** Clone the repository**
+1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/marnie2015/cli_marnie.git
+   git clone git@github.com:marnie2015/cli_marnie.git
    cd cli_marnie
 
    ```
@@ -41,7 +41,11 @@ bundle install
 5. **Example**
 
    ```
-   ./bin/client_tool search "Jane" https://appassets02.shiftcare.com/manual/clients.json
+   ./bin/client_tool search "Jane"
+
+   OR
+
+   ./bin/client_tool search "Jane" path/to/clients.json
    ```
 
 6. **Expected Output**
@@ -70,3 +74,27 @@ bundle install
 - Loads the entire JSON into memory — not ideal for large files.
 - No output formatting (e.g. CSV, JSON export).
 - No pagination or sorting of results.
+
+## 🧪 Running Tests
+
+This project uses [RSpec](https://rspec.info/) for automated testing.
+
+To run all tests with human-readable output, use:
+
+```bash
+bundle exec rspec --format documentation
+```
+
+## 🌐 Feature Improvements
+
+- Implement a REST API using Sinatra or Rails for web-based querying.
+- Add the ability to specify which field to search, such as `email`.
+- Enable exporting results to JSON or CSV format.
+- Add pagination and sorting to large result sets.
+- Introduce versioning for both API endpoints (e.g., `/api/v1/...`) and service logic to support future enhancements without breaking compatibility.
+
+## 📈 Scalability Considerations
+
+- Move from file-based JSON parsing to a database-backed model using PostgreSQL.
+- Add caching (e.g., in-memory memoization or Redis) for repeated queries.
+- Use background jobs for expensive operations (e.g. de-duplication or export).

@@ -26,25 +26,6 @@ RSpec.describe 'ClientTool CLI' do
   end
 
   describe 'CLI behavior' do
-    it 'prints usage when no command is provided' do
-      stdout, stderr, status = run_cli
-      expect(stdout).to include("Usage:")
-      expect(status.exitstatus).not_to eq(0)
-    end
-
-    it 'prints error and usage if search query is missing' do
-      stdout, _, status = run_cli("search")
-      expect(stdout).to include("Missing search query")
-      expect(stdout).to include("Usage:")
-      expect(status.exitstatus).not_to eq(0)
-    end
-
-    it 'prints error for unknown command' do
-      stdout, _, status = run_cli("unknown")
-      expect(stdout).to include("Unknown command")
-      expect(status.exitstatus).not_to eq(0)
-    end
-
     it 'executes search with valid query and no duplicates' do
       file = create_json_file([
         { "full_name" => "Jane Smith", "email" => "jane@example.com" },
@@ -70,6 +51,25 @@ RSpec.describe 'ClientTool CLI' do
       stdout, _, status = run_cli("search", "Nonexistent", file.path)
       expect(stdout).to include("No clients found matching 'Nonexistent'")
       expect(status.exitstatus).to eq(0)
+    end
+
+    it 'prints usage when no command is provided' do
+      stdout, stderr, status = run_cli
+      expect(stdout).to include("Usage:")
+      expect(status.exitstatus).not_to eq(0)
+    end
+
+    it 'prints error and usage if search query is missing' do
+      stdout, _, status = run_cli("search")
+      expect(stdout).to include("Missing search query")
+      expect(stdout).to include("Usage:")
+      expect(status.exitstatus).not_to eq(0)
+    end
+
+    it 'prints error for unknown command' do
+      stdout, _, status = run_cli("unknown")
+      expect(stdout).to include("Unknown command")
+      expect(status.exitstatus).not_to eq(0)
     end
   end
 end

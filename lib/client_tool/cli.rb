@@ -3,9 +3,22 @@ require_relative '../../app/services/client_query_service'
 module ClientTool
   class CLI
     def initialize(args)
-      @command = args[0]
-      @argument = args[1]
-      @source = args[2]
+      args = args.dup
+
+      @command  = args.shift
+      @argument = args.shift
+      @field    = 'full_name'
+      @source   = 'https://appassets02.shiftcare.com/manual/clients.json'
+
+      while args.any?
+        case args.first
+        when '--field'
+          args.shift
+          @field = args.shift
+        else
+          @source = args.shift
+        end
+      end
     end
 
     def run
@@ -31,16 +44,18 @@ module ClientTool
       puts <<~USAGE
 
         Usage:
-          ./bin/client_tool search <query> [source]
+          ./bin/client_tool search <query> [source] [--field FIELD]
 
         Examples:
-          ./bin/client_tool search "John" https://appassets02.shiftcare.com/manual/clients.json
+          ./bin/client_tool search "John"
+          ./bin/client_tool search "Jane" path/to/clients.json
+          ./bin/client_tool search "jane@example.com" https://example.com/clients.json --field email
 
       USAGE
     end
 
     def execute_search
-      service = ClientQueryService.new(source: @source, q: @argument)
+      service = ClientQueryService.new(source: @source, q: @argument, field: @field)
       result = service.process
 
       matches = result[:results]

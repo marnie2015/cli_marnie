@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require_relative '../lib/client_tool/cli'
+
+ClientTool::CLI.new(ARGV).run
